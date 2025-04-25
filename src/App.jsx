@@ -18,14 +18,13 @@ function App() {
   };
 
   const handleUploadComplete = (uploadedFiles) => {
-    // Process uploaded files into documents
     const newDocuments = uploadedFiles.map(file => {
       const metadata = new DocumentMetadata(
         [],
         'Uploaded User',
-        'uploaded',
+        file.isUrl ? 'url-import' : 'uploaded',
         [],
-        `Uploaded document: ${file.name}`
+        file.isUrl ? `Imported from URL: ${file.content}` : `Uploaded document: ${file.name}`
       );
 
       return new Document(
@@ -33,7 +32,7 @@ function App() {
         file.name,
         file.content,
         metadata,
-        `Automatically uploaded document: ${file.name}`
+        file.isUrl ? `URL content from ${file.content}` : `Automatically uploaded document: ${file.name}`
       );
     });
 
